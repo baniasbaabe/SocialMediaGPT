@@ -1,0 +1,18 @@
+header {
+position: sticky;
+padding: 1rem;
+top: 0;
+display: flex;
+align-items: flex-start;
+justify-content: space-between;
+max-width: 80rem;
+margin-right: auto;
+margin-left: auto;
+z-index: 20;
+}
+
+.socialicons-container {
+display: flex;
+flex-direction: row;
+align-items: center;   
+}
