@@ -1,15 +1,75 @@
-/* styles.css */
-
 .column {
-  float: left;
+  /* float: left; */
   width: 50%;
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: start;
 }
 
-/* Clear floats after the columns */
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+/* Clear floats after the columns
 .row:after {
   content: "";
   display: table;
   clear: both;
+} */
+
+.form-card-left {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  margin-left: 3vh;
+  margin-top: 3vh;
+  margin-bottom: 3vh;
+  padding: 1vh 1vh 1vh 1vh;
+  width: 75%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  object-fit: contain;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+.form-card-right {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  margin-right: 3vh;
+  margin-top: 3vh;
+  margin-bottom: 3vh;
+  padding: 1vh 1vh 1vh 1vh;
+  width: 75%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  object-fit: contain;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 50%;
+  margin: auto;
+  position: relative;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 50%;
+  margin: auto;
+  position: relative;
 }
 
 textarea {
@@ -38,34 +98,6 @@ select {
   background-color: #f1f1f1;
 }
 
-.form-card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  margin-left: 10vh;
-  margin-top: 10vh;
-  margin-bottom: 5vh;
-  padding: 1vh 1vh 1vh 1vh;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  object-fit: contain;
-  flex-shrink: 0;
-  box-sizing: border-box;
-  overflow-x: scroll;
-  /* space-y-7: space-y-7;
-  flex-shrink-0: flex-shrink-0;
-  overflow-y-auto: overflow-y-auto;
-  scrollbar-hide: scrollbar-hide; */
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 300px;
-  margin: auto;
-  position: relative;
-}
 
 input[type="button"],
 input[type="submit"],
@@ -83,4 +115,29 @@ button {
 label {
   padding: 6px 6px 6px 0;
   display: inline-block;
+}
+
+.animated-templates-fetching-text {
+  transition: all 0.5s ease-in-out; 
+}
+
+@media only screen and (max-width: 600px) {
+  .row {
+    flex-direction: column; /* Stack columns below each other on smaller screens */
+  }
+
+  .column {
+    width: 100%; /* Take full width on smaller screens */
+    margin: 0; /* Remove margin on smaller screens */
+  }
+
+  .form-card-left {
+    width: 100%;
+    margin: 0;
+  }
+  .form-card-right {
+    width: 100%;
+    margin: 0;
+  }
+
 }

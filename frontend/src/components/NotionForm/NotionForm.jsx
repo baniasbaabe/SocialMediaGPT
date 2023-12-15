@@ -105,7 +105,7 @@ function NotionForm() {
   return (
     <div className="row">
       <div className="column">
-        <div className="form-card">
+        <div className="form-card-left">
           <form
             id="myform"
             onSubmit={handleSubmit((data) => handleSubmitInner(data))}
@@ -129,7 +129,7 @@ function NotionForm() {
               />
             </label>
             <label>
-              Database ID:
+              Database ID
               <input
                 type="text"
                 value={databaseId}
@@ -161,7 +161,7 @@ function NotionForm() {
                 name="operation"
                 value="createPosts"
                 checked={!createTemplate}
-                onChange={() => setCreateTemplate(false)}
+                onChange={() => setCreateTemplate(false) || setIsTemplatesFetched(false)}
               />
               Create Posts from Template
             </label>
@@ -169,7 +169,7 @@ function NotionForm() {
             {createTemplate && (
               <>
                 <label>
-                  Page ID:
+                  Page ID
                   <input
                     type="text"
                     value={pageId}
@@ -189,7 +189,7 @@ function NotionForm() {
                   Fetch your existing Templates
                 </button>
                 <br></br>
-                {isTemplatesFetched && (
+                {isTemplatesFetched && templates.count != 0 ? (
                   <>
                     <label>
                       Select Template:
@@ -227,23 +227,30 @@ function NotionForm() {
                       ></input>
                     </label>
                   </>
+                ) : (
+                  <>
+                    <p className="animated-templates-fetching-text">
+                      {isTemplatesFetched ? "There aren't any templates in the database. Try again or create new templates." : "Templates are not yet fetched."}
+                    </p>
+                  </>
                 )}
               </>
             )}
             <br></br>
-            <input form="myform" type="submit" />
+            <input form="myform" type="submit" disabled={!createTemplate && templates.count === 0} value={(!createTemplate && templates.count === 0) ? "Can't Create " : "Submit"}/>
           </form>
         </div>
       </div>
       <div className="column">
+        <div className="form-card-right">
         {createTemplate ? (
-          <div>
+          <div className="inner">
             <h2>Created Template:</h2>
             <pre>{generatedTemplate.title}</pre>
             <pre>{generatedTemplate.post}</pre>
           </div>
         ) : (
-          <div>
+          <div className="inner"> 
             <h2>Generated Posts:</h2>
             {selectedTemplate && (
               <pre>Selected Template: {selectedTemplate}</pre>
@@ -255,6 +262,8 @@ function NotionForm() {
             </ul>
           </div>
         )}
+        </div>
+       
       </div>
     </div>
   );
