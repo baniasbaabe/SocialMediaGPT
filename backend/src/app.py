@@ -30,6 +30,7 @@ class TemplateCreate(BaseModel):
     text: str
     model: str
     databaseId: Optional[str] = None
+    pageId: Optional[str] = None
 
 
 class GeneratePosts(BaseModel):
@@ -73,7 +74,7 @@ async def create_template(data: TemplateCreate):
             }
         ]
         icon = {"type": "emoji", "emoji": "🤖"}
-        parent = {"type": "page_id", "page_id": "b63ecd4f-b794-4063-a6ef-5f3a6820c1be"}
+        parent = {"type": "page_id", "page_id": data.pageId}
 
         database_id = notion.databases.create(
             parent=parent, title=title, properties=properties, icon=icon, is_inline=True
