@@ -1,5 +1,5 @@
 header {
-  position: sticky;
+  position: static;
   padding: 1rem;
   top: 0;
   display: flex;
@@ -15,13 +15,4 @@ header {
   display: flex;
   flex-direction: row;
   align-items: center;
-}
-
-@media only screen and (max-width: 900px) {
-  header {
-    /* width: 100%; 
-    float: none; 
-        margin: auto; */
-    position: static;
-  }
 }
