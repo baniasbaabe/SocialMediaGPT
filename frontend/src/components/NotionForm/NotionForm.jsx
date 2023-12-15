@@ -7,7 +7,7 @@ import "./notionform.css";
 function NotionForm() {
   const [notionKey, setNotionKey] = useState("");
   const [openaiKey, setOpenaiKey] = useState("");
-  const [createTemplate, setCreateTemplate] = useState(false);
+  const [createTemplate, setCreateTemplate] = useState(true);
   const [databaseId, setDatabaseId] = useState("");
   const [pageId, setPageId] = useState("");
   const [templates, setTemplates] = useState({ count: 0, data: [] });
@@ -82,8 +82,7 @@ function NotionForm() {
 
   const handleFetchTemplates = () => {
     axios
-      .get("http://localhost:8000/get_templates", {
-        params: { notionKey: notionKey, databaseId: databaseId },
+      .post("http://localhost:8000/get_templates", { notionKey: notionKey, databaseId: databaseId }, {
         headers: {
           Accept: "application/json",
           ContentType: "application/json",
@@ -113,7 +112,7 @@ function NotionForm() {
             <label>
               Notion Key
               <input
-                type="text"
+                type="password"
                 required
                 value={notionKey}
                 onChange={(e) => setNotionKey(e.target.value)}
@@ -122,7 +121,7 @@ function NotionForm() {
             <label>
               OpenAI Key
               <input
-                type="text"
+                type="password"
                 required
                 value={openaiKey}
                 onChange={(e) => setOpenaiKey(e.target.value)}
@@ -131,9 +130,10 @@ function NotionForm() {
             <label>
               Database ID
               <input
-                type="text"
+                type="password"
                 value={databaseId}
                 onChange={(e) => setDatabaseId(e.target.value)}
+                disabled={pageId!='' && createTemplate}
               />
             </label>
             <label>
@@ -150,6 +150,7 @@ function NotionForm() {
                 name="operation"
                 value="createTemplate"
                 checked={createTemplate}
+                defaultChecked
                 onChange={() => setCreateTemplate(true)}
               />
               Create Template
@@ -169,11 +170,12 @@ function NotionForm() {
             {createTemplate && (
               <>
                 <label>
-                  Page ID
+                  Page ID (where Database should be created)
                   <input
-                    type="text"
+                    type="password"
                     value={pageId}
                     onChange={(e) => setPageId(e.target.value)}
+                    disabled={databaseId!=''}
                   />
                 </label>
                 <label>
@@ -206,7 +208,6 @@ function NotionForm() {
                           </option>
                         ))}
                       </select>
-                      <br></br>
                       <label for="numPosts">Quantity (between 1 and 5):</label>
                       <input
                         {...register("numPosts")}
@@ -215,9 +216,9 @@ function NotionForm() {
                         name="numPosts"
                         min="1"
                         max="5"
+                        required
                       />
                     </label>
-                    <br></br>
                     <label>
                       Topics, the posts should be about (separated by comma):
                       <input
@@ -237,7 +238,7 @@ function NotionForm() {
               </>
             )}
             <br></br>
-            <input form="myform" type="submit" disabled={!createTemplate && templates.count === 0} value={(!createTemplate && templates.count === 0) ? "Can't Create " : "Submit"}/>
+            <input form="myform" type="submit" disabled={!createTemplate && templates.count === 0} value={(!createTemplate && templates.count === 0) ? "Can't Create" : "Submit"}/>
           </form>
         </div>
       </div>
@@ -245,15 +246,15 @@ function NotionForm() {
         <div className="form-card-right">
         {createTemplate ? (
           <div className="inner">
-            <h2>Created Template:</h2>
-            <pre>{generatedTemplate.title}</pre>
-            <pre>{generatedTemplate.post}</pre>
+            <h2>Generated Template:</h2>
+            <p>{generatedTemplate.title}</p>
+            <p>{generatedTemplate.post}</p>
           </div>
         ) : (
           <div className="inner"> 
             <h2>Generated Posts:</h2>
             {selectedTemplate && (
-              <pre>Selected Template: {selectedTemplate}</pre>
+              <p>Selected Template: <i>{selectedTemplate}</i></p>
             )}
             <ul>
               {generatedPosts.map((post, index) => (

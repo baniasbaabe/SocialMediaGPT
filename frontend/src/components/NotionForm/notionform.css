@@ -1,7 +1,7 @@
 .column {
   /* float: left; */
   width: 50%;
-  margin-top: 10px;
+  margin-top: 20px;
   display: flex;
   justify-content: center;
   align-items: start;
@@ -13,12 +13,6 @@
   justify-content: space-between;
 }
 
-/* Clear floats after the columns
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-} */
 
 .form-card-left {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -34,6 +28,7 @@
   flex-shrink: 0;
   box-sizing: border-box;
   overflow: auto;
+  height: 70%;
 }
 
 .form-card-right {
@@ -59,7 +54,6 @@
   width: 50%;
   margin: auto;
   position: relative;
-  overflow-wrap: break-word;
   word-wrap: break-word;
 }
 
@@ -68,8 +62,10 @@ form {
   flex-direction: column;
   gap: 8px;
   width: 50%;
+  height: 90%;
   margin: auto;
   position: relative;
+  overflow: auto;
 }
 
 textarea {
