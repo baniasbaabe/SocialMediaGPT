@@ -1,10 +1,10 @@
 .brandname {
-height: 5vh;
-display: flex;
-flex-direction: column;
-gap: 1rem;
-align-items: center;
-justify-content: center;
-text-align: center;
-overflow: hidden;
+  height: 5vh;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
 }
