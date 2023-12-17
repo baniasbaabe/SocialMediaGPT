@@ -8,11 +8,10 @@ from langchain.chains import LLMChain
 from langchain.chat_models import ChatOpenAI
 from notion_client import Client
 from pydantic import BaseModel
-# import random
 
-app = FastAPI(debug=True)
+app = FastAPI()
 
-origins = ["http://localhost:3000", "localhost:3000", "https://localhost:3000"]
+origins = ["http://localhost:3000", "localhost:3000"]
 
 
 app.add_middleware(
@@ -132,23 +131,23 @@ async def create_template(data: TemplateCreate):
     if not data.databaseId:
         response["databaseId"] = database_id
 
-    # response = {"title": "Title of Create template" + str(random.randint(1,100)), "post": "Post of Create template"}
+    # response = {"title": "Title of Create templateaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + str(random.randint(1,100)), "post": "Post of Create template"}
     # if not data.databaseId:
     #     response["databaseId"] = str(random.randint(1,100))
 
     return response
 
 
-@app.get(
+@app.post(
     "/get_templates",
 )
-async def get_templates(notionKey: str, databaseId: str):
-    if not databaseId:
+async def get_templates(data: GetTemplates):
+    if not data.databaseId:
         return {"count": 0, "data": []}
-    notion = Client(auth=notionKey)
+    notion = Client(auth=data.notionKey)
     available_templates = notion.databases.query(
         **{
-            "database_id": databaseId,
+            "database_id": data.databaseId,
             "filter": {
                 "property": "Status",
                 "select": {

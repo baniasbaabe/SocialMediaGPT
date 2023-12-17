@@ -238,7 +238,7 @@ function NotionForm() {
               </>
             )}
             <br></br>
-            <input form="myform" type="submit" disabled={!createTemplate && templates.count === 0} value={(!createTemplate && templates.count === 0) ? "Can't Create" : "Submit"}/>
+            <input form="myform" type="submit" disabled={!createTemplate && templates.count === 0} value="Submit"/>
           </form>
         </div>
       </div>
