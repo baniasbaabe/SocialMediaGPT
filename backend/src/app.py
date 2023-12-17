@@ -12,7 +12,7 @@ from pydantic import BaseModel
 
 FRONTEND_ENDPOINT = dotenv_values(".env").get("FRONTEND_ENDPOINT", None)
 
-app = FastAPI(debug=True)
+app = FastAPI()
 
 origins = ["http://localhost:3000", "localhost:3000", FRONTEND_ENDPOINT]
 
