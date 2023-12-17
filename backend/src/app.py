@@ -1,6 +1,7 @@
 from typing import Optional
 
 import uvicorn
+from dotenv import dotenv_values
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from langchain import PromptTemplate
@@ -9,9 +10,11 @@ from langchain.chat_models import ChatOpenAI
 from notion_client import Client
 from pydantic import BaseModel
 
-app = FastAPI()
+FRONTEND_ENDPOINT = dotenv_values(".env").get("FRONTEND_ENDPOINT", None)
 
-origins = ["http://localhost:3000", "localhost:3000"]
+app = FastAPI(debug=True)
+
+origins = ["http://localhost:3000", "localhost:3000", FRONTEND_ENDPOINT]
 
 
 app.add_middleware(
