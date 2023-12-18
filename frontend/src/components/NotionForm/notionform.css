@@ -45,6 +45,7 @@
   flex-shrink: 0;
   box-sizing: border-box;
   overflow: auto;
+  height: 70%;
 }
 
 .inner {
@@ -114,7 +115,7 @@ label {
 }
 
 .animated-templates-fetching-text {
-  transition: all 0.5s ease-in-out; 
+  transition: all 0.5s ease-in-out;
 }
 
 @media only screen and (max-width: 600px) {
@@ -136,4 +137,9 @@ label {
     margin: 0;
   }
 
+}
+
+hr {
+  border: 1px solid #000; /* Change color and style as needed */
+  margin: 20px 0; /* Adjust spacing as needed */
 }

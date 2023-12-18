@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import "./notionform.css";
 
 function NotionForm() {
+  const [submitLoad, setSubmitLoad] = useState(false)
+  const [fetchLoad, setFetchLoad] = useState(false)
   const [notionKey, setNotionKey] = useState("");
   const [openaiKey, setOpenaiKey] = useState("");
   const [createTemplate, setCreateTemplate] = useState(true);
@@ -22,9 +24,10 @@ function NotionForm() {
 
   const handleSubmitInner = async (data) => {
     if (createTemplate) {
+      setSubmitLoad(true)
       const response = await axios
         .post(
-          "http://localhost:8000/create_template",
+          `${process.env.REACT_APP_API_URL}/create_template`,
           {
             notionKey: notionKey,
             openaiKey: openaiKey,
@@ -48,12 +51,12 @@ function NotionForm() {
         .catch((error) =>
           alert(
             "Error creating template. Please make sure to input valid Keys (and a valid Database ID + Page ID). Check, if you have access to GPT-4 (if you selected it)",
-          ),
-        );
+          )).finally(() => setSubmitLoad(false));
     } else {
+      setSubmitLoad(true)
       const response = await axios
         .post(
-          "http://localhost:8000/generate_posts",
+          `${process.env.REACT_APP_API_URL}/generate_posts`,
           {
             notionKey: notionKey,
             openaiKey: openaiKey,
@@ -76,16 +79,17 @@ function NotionForm() {
           alert(
             "Error creating template. Please make sure to input valid Keys and a valid Database ID. Check, if you have access to GPT-4 (if you selected it)",
           ),
-        );
+        ).finally(() => setSubmitLoad(false));
     }
   };
 
   const handleFetchTemplates = () => {
+    setFetchLoad(true)
     axios
-      .post("http://localhost:8000/get_templates", { notionKey: notionKey, databaseId: databaseId }, {
+      .post(`${process.env.REACT_APP_API_URL}/get_templates`, { notionKey: notionKey, databaseId: databaseId }, {
         headers: {
-          Accept: "application/json",
-          ContentType: "application/json",
+          "Accept": "application/json",
+          "Content-Type": "application/json",
         },
       })
       .then((response) => {
@@ -98,7 +102,8 @@ function NotionForm() {
           );
         }
       })
-      .catch((error) => alert(error));
+      .catch((error) => alert(error))
+      .finally(() => setFetchLoad(false));
   };
 
   return (
@@ -130,10 +135,9 @@ function NotionForm() {
             <label>
               Database ID
               <input
-                type="password"
+                type="text"
                 value={databaseId}
                 onChange={(e) => setDatabaseId(e.target.value)}
-                disabled={pageId!='' && createTemplate}
               />
             </label>
             <label>
@@ -172,10 +176,9 @@ function NotionForm() {
                 <label>
                   Page ID (where Database should be created)
                   <input
-                    type="password"
+                    type="text"
                     value={pageId}
                     onChange={(e) => setPageId(e.target.value)}
-                    disabled={databaseId!=''}
                   />
                 </label>
                 <label>
@@ -187,8 +190,8 @@ function NotionForm() {
 
             {!createTemplate && (
               <>
-                <button type="button" onClick={handleFetchTemplates}>
-                  Fetch your existing Templates
+                <button type="button" onClick={handleFetchTemplates} disabled={fetchLoad}>
+                  Fetch Templates {fetchLoad && <i className="fa fa-spinner fa-spin fa-xs"></i>}
                 </button>
                 <br></br>
                 {isTemplatesFetched && templates.count != 0 ? (
@@ -238,7 +241,9 @@ function NotionForm() {
               </>
             )}
             <br></br>
-            <input form="myform" type="submit" disabled={!createTemplate && templates.count === 0} value="Submit"/>
+            <button form="myform" type="submit" disabled={!createTemplate && templates.count === 0}>
+            Submit {submitLoad && <i className="fa fa-spinner fa-spin fa-xs"></i>}
+            </button>
           </form>
         </div>
       </div>
@@ -251,11 +256,12 @@ function NotionForm() {
             <p>{generatedTemplate.post}</p>
           </div>
         ) : (
-          <div className="inner"> 
+          <div className="inner">
             <h2>Generated Posts:</h2>
             {selectedTemplate && (
               <p>Selected Template: <i>{selectedTemplate}</i></p>
-            )}
+              )}
+              <hr></hr>
             <ul>
               {generatedPosts.map((post, index) => (
                 <li key={index}>{post.post}</li>
@@ -264,7 +270,7 @@ function NotionForm() {
           </div>
         )}
         </div>
-       
+
       </div>
     </div>
   );
