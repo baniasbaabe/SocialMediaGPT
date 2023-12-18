@@ -1,8 +1,9 @@
 import ast
+import os
 from typing import Optional
 
 import uvicorn
-from dotenv import dotenv_values
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from langchain import PromptTemplate
@@ -10,9 +11,12 @@ from langchain.chains import LLMChain
 from langchain.chat_models import ChatOpenAI
 from notion_client import Client
 from pydantic import BaseModel
+
 import src.prompts as prompts
 
-FRONTEND_ENDPOINT = dotenv_values(".env").get("FRONTEND_ENDPOINT", None)
+load_dotenv()
+
+FRONTEND_ENDPOINT = os.getenv("FRONTEND_ENDPOINT")
 
 app = FastAPI(debug=False)
 
@@ -172,7 +176,6 @@ async def generate_posts(data: GeneratePosts):
     llm = ChatOpenAI(
         openai_api_key=data.openaiKey, temperature=0, model_name=data.model
     )
-
 
     creating_posts_prompt_template = PromptTemplate.from_template(
         template=prompts.creating_posts_prompt
