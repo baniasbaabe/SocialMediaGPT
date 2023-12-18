@@ -47,6 +47,7 @@ optional = true
 
 [tool.poetry.group.fixers.dependencies]
 docformatter = "*"
+codespell = "^2.2.6"
 
 [tool.ruff]
 select = [
@@ -92,7 +93,7 @@ line-ending = "auto"
 [tool.interrogate]
 ignore-init-method = true
 fail-under = 60
-exclude = ["tests"]
+exclude = ["frontend","backend/.venv","backend/tests"]
 
 [tool.mypy]
 disable_error_code = ["import-untyped","call-overload"]
