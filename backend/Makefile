@@ -10,6 +10,10 @@ install_prod:
 	poetry config virtualenvs.prefer-active-python true
 	poetry install
 
+start_backend:
+	@echo "Start development server"
+	poetry run uvicorn src.app:app --reload
+
 test:
 	@echo "Running tests..."
 	poetry run pytest --cov=src
@@ -17,7 +21,3 @@ test:
 check_all:
 	@echo "Checking all files with pre-commit..."
 	poetry run pre-commit run --all-files
-
-build:
-	@echo "Building docker image..."
-	docker image build -t socialmediagpt-backend:latest ./backend/
