@@ -139,7 +139,7 @@ label {
 
 }
 
-hr {
-  border: 1px solid #000; /* Change color and style as needed */
-  margin: 20px 0; /* Adjust spacing as needed */
-}
+ hr {
+        border: 1px solid #000; /* Change color and style as needed */
+        margin: 20px 0; /* Adjust spacing as needed */
+    }

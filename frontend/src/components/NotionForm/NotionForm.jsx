@@ -182,7 +182,7 @@ function NotionForm() {
                   />
                 </label>
                 <label>
-                  Template Text:
+                  Post:
                   <textarea {...register("text")} />
                 </label>
               </>
