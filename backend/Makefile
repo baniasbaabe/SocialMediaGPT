@@ -17,3 +17,7 @@ test:
 check_all:
 	@echo "Checking all files with pre-commit..."
 	poetry run pre-commit run --all-files
+
+build:
+	@echo "Building docker image..."
+	docker image build -t socialmediagpt-backend:latest ./backend/
