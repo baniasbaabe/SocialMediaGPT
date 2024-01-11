@@ -4,7 +4,7 @@ from langchain import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.chat_models import ChatOpenAI
 
-
+#TODO: Change sync to async call for LLM
 class LLM:
     """This class manages the interaction with a language model using OpenAI's
     Chat API.
