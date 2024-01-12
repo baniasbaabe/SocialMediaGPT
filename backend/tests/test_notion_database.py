@@ -18,7 +18,7 @@ def mock_llm():
         llm_instance = MagicMock()
         return llm_instance
 
-    with patch("src.notion_database.LLM", side_effect=llm_callable) as mock:
+    with patch("src.llm.LLM", side_effect=llm_callable) as mock:
         yield mock
 
 
