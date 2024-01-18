@@ -4,7 +4,8 @@ from langchain import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.chat_models import ChatOpenAI
 
-#TODO: Change sync to async call for LLM
+
+# TODO: Change sync to async call for LLM
 class LLM:
     """This class manages the interaction with a language model using OpenAI's
     Chat API.
@@ -17,13 +18,17 @@ class LLM:
       Higher values (e.g., 0.8) make the output more random. Defaults to 0.0.
 
     Attributes:
-    - llm (ChatOpenAI): An instance of ChatOpenAI for interacting with the OpenAI Chat API.
-    - prompt_template (PromptTemplate): The provided template for constructing prompts.
-    - llm_chain (LLMChain): An instance of LLMChain for managing the language model chain.
+    - llm (ChatOpenAI): An instance of ChatOpenAI for interacting with the
+    OpenAI Chat API.
+    - prompt_template (PromptTemplate): The provided template for constructing
+    prompts.
+    - llm_chain (LLMChain): An instance of LLMChain for managing the language
+    model chain.
 
     Methods:
     - __call__(placeholder_mapping: Dict[str, Any]) -> str:
-      Generates text using the language model chain based on the provided placeholder mapping.
+      Generates text using the language model chain based on the
+      provided placeholder mapping.
 
     Example:
     ```python
@@ -36,7 +41,8 @@ class LLM:
     ```
 
     Note:
-    The `__call__` method is the primary interface for generating text using the language model chain.
+    The `__call__` method is the primary interface for generating
+    text using the language model chain.
     """
 
     def __init__(
@@ -69,7 +75,8 @@ class LLM:
         placeholder mapping.
 
         Parameters:
-        - placeholder_mapping (Dict[str, Any]): A mapping of placeholders to their corresponding values.
+        - placeholder_mapping (Dict[str, Any]): A mapping of placeholders to their
+        corresponding values.
 
         Returns:
         - str: The generated text.

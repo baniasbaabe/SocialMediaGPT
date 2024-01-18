@@ -4,14 +4,60 @@ from typing import Dict, List, Optional
 from notion_client import Client
 
 from src.data_models import GeneratePosts, GetTemplates, TemplateCreate
+from src.llm import LLM
 
 
 class NotionDatabase:
-    def __init__(self, notion: Client, llm=None) -> None:
+    """This class manages the interaction with the Notion Database.
+
+    Parameters:
+    - notion (Client): The Notion client.
+    - llm (LLM): The LLM instance.
+
+    Methods:
+    - get_templates(data: GetTemplates) -> Dict[int, List[Dict[str, str]]]:
+        Returns the available templates in the database.
+    - create_template(data: TemplateCreate) -> Dict[str, str]: Creates a new template
+        and insert it into the database.
+    - generate_posts(data: GeneratePosts) -> List[Dict[str, str]]: Generates posts
+        from a template and insert them into the database.
+
+    Example:
+    ```python
+    openai_key = "your_openai_api_key"
+    model_name = "your_model_name"
+    notion_key = "your_notion_key"
+    prompt_template = PromptTemplate.from_template("Your prompt template {}")
+
+    llm = LLM(openai_api_key=openai_key, model_name=model_name, prompt_template=prompt_template)
+    generated_text = llm({"placeholder": "value"})
+
+    notion = Client(auth=notion_key)
+
+    notion_database = NotionDatabase(notion, llm)
+    templates = notion_database.get_templates()
+    ```
+    """
+
+    def __init__(self, notion: Client, llm: LLM = None) -> None:
+        """Initialize the Notion Database instance.
+
+        Parameters:
+         - notion (Client): The Notion client.
+        - llm (LLM): The LLM instance.
+        """
         self.notion = notion
         self.llm = llm
 
     def get_templates(self, data: GetTemplates) -> Dict[int, List[Dict[str, str]]]:
+        """Returns the available templates in the database.
+
+        Args:
+            data (GetTemplates): The data model for getting templates.
+
+        Returns:
+            Dict[int, List[Dict[str, str]]]: The available templates in the database.
+        """
         if not data.databaseId:
             return {"count": 0, "data": []}
 
@@ -22,6 +68,14 @@ class NotionDatabase:
         return {"count": len(formatted_templates), "data": formatted_templates}
 
     def create_template(self, data: TemplateCreate) -> Dict[str, str]:
+        """Creates a new template and insert it into the database.
+
+        Args:
+            data (TemplateCreate): The data model for creating a template.
+
+        Returns:
+            Dict[str, str]: The created template.
+        """
         database_id = self._create_database(data)
         template = self._generate_template(data)
 
@@ -37,6 +91,14 @@ class NotionDatabase:
         return response
 
     def generate_posts(self, data: GeneratePosts) -> List[Dict[str, str]]:
+        """Generates posts from a template and insert them into the database.
+
+        Args:
+            data (GeneratePosts): The data model for generating posts.
+
+        Returns:
+            List[Dict[str, str]]: The generated posts.
+        """
         posts = self._generate_posts(data)
 
         self._store_generated_posts(posts, data.databaseId)
