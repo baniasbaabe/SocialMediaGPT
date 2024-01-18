@@ -22,6 +22,7 @@ def mock_llm():
         yield mock
 
 
+# Todo: Add tests for the following methods: getTemplates
 def test_get_templates(mock_notion_client):
     notion_db = NotionDatabase(notion=mock_notion_client)
 

@@ -17,7 +17,7 @@ def test_llm_call():
         mock_llm_chain_instance.return_value = {"text": "Generated response"}
 
         llm_instance = LLM(
-            openai_api_key="your_key",
+            openai_api_key="your_openai_key",
             model_name="your_model",
             prompt_template=prompt_template,
         )
@@ -27,7 +27,7 @@ def test_llm_call():
         assert result == "Generated response"
 
         mock_chat_openai.assert_called_once_with(
-            openai_api_key="your_key", temperature=0.0, model_name="your_model"
+            openai_api_key="your_openai_key", temperature=0.0, model_name="your_model"
         )
         mock_llm_chain.assert_called_once_with(
             llm=mock_chat_openai_instance,
